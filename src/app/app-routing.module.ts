@@ -10,6 +10,10 @@ const appRoutes: Routes = [
   {
     path: "home",
     loadChildren: () => import("./component/home/home.module").then(m => m.HomeModule)
+  },
+  {
+    path: "culture",
+    loadChildren: () => import("./component/culture/culture.module").then(m => m.CultureModule)
   }
 ];
 

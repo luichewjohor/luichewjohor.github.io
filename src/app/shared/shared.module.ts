@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AlertComponent } from './alert/alert.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { PlaceholderDirective } from './placeholder/placeholder.directive';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,12 +12,13 @@ import { PlaceholderDirective } from './placeholder/placeholder.directive';
     AlertComponent,
     LoadingSpinnerComponent,
     PlaceholderDirective],
-    imports: [CommonModule],
+    imports: [CommonModule,ReactiveFormsModule],
     exports: [
     AlertComponent,
     CommonModule,
     LoadingSpinnerComponent,
-    PlaceholderDirective
+    PlaceholderDirective,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule { }

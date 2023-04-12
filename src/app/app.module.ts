@@ -6,6 +6,7 @@ import { HeaderComponent } from './component/header/header.component';
 import { FooterComponent } from './component/footer/footer.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule} from '@angular/common/http';
+import { CultureComponent } from './component/culture/culture.component';
 
 @NgModule({
   declarations: [
