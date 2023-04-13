@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   firebaseAPIKey: 'AIzaSyAqS1rwAN_7Od68qoRwJWU1g0s486oqnpg',
-  url: 'https://luichewjohor-default-rtdb.asia-southeast1.firebasedatabase.app/post.json'
+  url: 'https://luichewjohor-default-rtdb.asia-southeast1.firebasedatabase.app/post.json',
+  imgPath : 'gs://luichewjohor.appspot.com'
 };
 
 /*
