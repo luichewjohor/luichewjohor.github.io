@@ -15,6 +15,49 @@
           </button>
         </div>
       </div>
+
+      <div
+        class="container"
+        *ngIf="images && images.length"
+        formArrayName="image"
+      >
+        <div class="row">
+          <div
+            *ngFor="let image of imagesControls.controls; let i = index"
+            class="col-3"
+          >
+            <div [formGroupName]="i">
+              <img
+                [src]="image.value.result"
+                class="img-responsive"
+                style="height: 100%; width: 100%; object-fit: contain"
+              />
+              <label *ngIf="images.length > 1"> {{ image.value.name }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <input
+              class="hidden"
+              type="file"
+              accept=".gif,.bmp, .png, .jpeg, .jpg, .pdf"
+              multiple
+              (change)="uploadCultureFile($event)"
+              name="image"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- <div class="row">
+        <div class="col-xs-12">
+          <img [src]="imagePath.value" class="img-responsive" />
+        </div>
+      </div> -->
+
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
@@ -28,44 +71,46 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="image">Image</label>
-            <br>
-            <input
-            class="hidden"
-            type="file"
-            accept=".gif,.bmp, .png, .jpeg, .jpg, .pdf"
-            multiple
-            (change)="uploadSupportingFile($event)"
-            #supportingFileUploader
-          />
-          </div>
-        </div>
-      </div>
 
-      <hr>
-      <div *ngFor="let fileUrl of images">
-        <img  [src]="fileUrl" />
-      </div>
-      <hr>
-      <!-- <div class="row">
-        <div class="col-xs-12">
-          <img [src]="imagePath.value" class="img-responsive" />
-        </div>
-      </div> -->
       <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="description">Description</label>
-            <textarea
-              type="text"
-              id="description"
-              class="form-control"
-              formControlName="description"
-              rows="6"
-            ></textarea>
+        <div class="col-xs-12" formArrayName="description">
+          <label for="description">Description</label>
+          <div
+            class="row"
+            *ngFor="let description of descriptionsControls; let i = index"
+            [formGroupName]="i"
+            style="margin-top: 10px"
+          >
+            <div class="d-flex bd-highlight">
+              <div class="p-2 flex-grow-1 bd-highlight">
+                <textarea
+                  type="text"
+                  id="paragraph"
+                  class="form-control"
+                  formControlName="paragraph"
+                ></textarea>
+              </div>
+              <div class="p-2 bd-highlight">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="onDeleteParagraph(i)"
+                >
+                  X
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <button
+                type="button"
+                class="btn btn-success"
+                (click)="onAddParagraph()"
+              >
+                Add Paragraph
+              </button>
+            </div>
           </div>
         </div>
       </div>
