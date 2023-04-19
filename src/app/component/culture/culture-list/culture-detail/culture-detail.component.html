@@ -1,1 +1,45 @@
-<p>culture-detail works!</p>
+<a
+  style="cursor: pointer;"
+  [routerLink]="[index]"
+  routerLinkActive="active"
+  class="list-group-item clearfix">
+  <div class="pull-left">
+    <h4 class="list-group-item-heading">{{ culture.header }}</h4>
+
+    <ul>
+      <li
+        class="list-group-item-text"
+        *ngFor="let desc of culture.description; let i = index">
+        {{ desc.paragraph }}
+      </li>
+    </ul>
+  </div>
+
+  <!-- <div class="row">
+    <div
+      *ngFor="let image of culture.images let i = index"
+      class="col-3"
+    >
+      <div [formGroupName]="i">
+        <img
+          [src]="image.key."
+          class="img-responsive"
+          style="height: 100%; width: 100%; object-fit: contain"
+        />
+        <label *ngIf="images.length > 1"> {{ image.value.name }}</label>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="row">
+    <div class="col-3" *ngFor="let images of culture.images; let j= index">
+  <span class="pull-right">
+        <img
+          [src]="images.url"
+          alt="{{ images.name }}"
+          class="img-responsive"
+          style="height: 100%; width: 100%; object-fit: contain">
+      </span>
+    </div>
+    </div>
+</a>

@@ -17,9 +17,9 @@ import { CultureDetailComponent } from './culture-list/culture-detail/culture-de
     CommonModule,
     FormsModule,
     RouterModule.forChild([
-      { path: '', component: CultureComponent },
+      { path: 'list', component: CultureListComponent },
       {
-        path: 'new',
+        path: 'list/new',
         component: CultureEditComponent
         // resolve: [CultureResolverService]
       },

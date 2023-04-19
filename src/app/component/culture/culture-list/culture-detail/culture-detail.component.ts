@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Culture } from 'src/app/model/culture.model';
 
 @Component({
   selector: 'app-culture-detail',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./culture-detail.component.css']
 })
 export class CultureDetailComponent {
+  @Input() culture: Culture;
+  @Input() index: number;
 
+  constructor(){
+
+  }
 }

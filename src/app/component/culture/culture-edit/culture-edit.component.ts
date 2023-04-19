@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { CultureService } from '../culture.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { FileUpload } from 'src/app/model/file-upload.model';
+import { FileService } from 'src/app/service/file.service';
 
 export interface UploadedImageInfo {
   result: any;
@@ -17,11 +19,16 @@ export class CultureEditComponent implements OnInit, OnDestroy {
   id: number;
   editMode = false;
   cultureForm: FormGroup;
-  images: any[] = [];
+  images: FileList;
   private fileReader = new FileReader();
+
+  selectedFiles?: FileList;
+  currentFileUpload?: FileUpload;
+  percentage = 0;
 
   constructor(
     private cultureService: CultureService,
+    private uploadFileService: FileService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -37,7 +44,7 @@ export class CultureEditComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   onSubmit() {
-    this.cultureService.storeCulture(this.cultureForm.value);
+    this.cultureService.storeCulture(this.cultureForm.value,this.images);
     this.router.navigate(['culture']);
   }
 
@@ -79,35 +86,18 @@ export class CultureEditComponent implements OnInit, OnDestroy {
   }
 
   uploadCultureFile(event: any) {
-    this.images = [];
     let selectedFiles = event.target.files;
     console.log(selectedFiles);
+    this.images = selectedFiles;
     if (selectedFiles) {
       for (let file of selectedFiles) {
         let reader = new FileReader();
         reader.onload = (e: any) => {
-          this.images.push(e.target.result);
           this.createImage(e.target.result,file.name);
         };
         reader.readAsDataURL(file);
       }
     }
-  }
-
-  private readFiles(files: any[], index: number) {
-    let file = files[index];
-    this.fileReader.onload = () => {
-      this.images.push({
-        result: this.fileReader.result,
-        name: file.name,
-      });
-      if (files[index + 1]) {
-        this.readFiles(files, index + 1);
-      } else {
-        console.log('loaded all files');
-      }
-    };
-    this.fileReader.readAsDataURL(file);
   }
 
   private initForm() {

@@ -12,8 +12,4 @@ export class CultureComponent {
     private route: ActivatedRoute) {
 
   }
-
-  onNewCulture(){
-    this.router.navigate(['new'], {relativeTo: this.route});
-  }
 }
