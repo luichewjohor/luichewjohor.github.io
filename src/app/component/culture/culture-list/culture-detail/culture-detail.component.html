@@ -1,20 +1,5 @@
-<a
-  style="cursor: pointer;"
-  [routerLink]="[index]"
-  routerLinkActive="active"
-  class="list-group-item clearfix">
-  <div class="pull-left">
-    <h4 class="list-group-item-heading">{{ culture.header }}</h4>
-
-    <ul>
-      <li
-        class="list-group-item-text"
-        *ngFor="let desc of culture.description; let i = index">
-        {{ desc.paragraph }}
-      </li>
-    </ul>
-  </div>
-
+<a [routerLink]="[culture.key]" routerLinkActive="active" class="list-group-item clearfix"
+  [class.disabled]="user == null">
   <!-- <div class="row">
     <div
       *ngFor="let image of culture.images let i = index"
@@ -31,15 +16,27 @@
     </div>
   </div> -->
 
-  <div class="row">
-    <div class="col-3" *ngFor="let images of culture.images; let j= index">
-  <span class="pull-right">
-        <img
-          [src]="images.url"
-          alt="{{ images.name }}"
-          class="img-responsive"
-          style="height: 100%; width: 100%; object-fit: contain">
-      </span>
+
+
+  <div class="container-fluid">
+    <div class="row">
+      <div *ngFor="let imgHeader of culture.headerImage" class="header-img">
+        <img [src]="imgHeader.url" alt="{{ imgHeader.name }}" />
+        <p class="header-text">{{ culture.header }}</p>
+      </div>
     </div>
+
+    <div class="row">
+      <div class="col-xl-3 col-lg-3 col-md-3">
+        <div style="margin-bottom: 10px;" *ngFor="let images of culture.images; let j = index">
+          <img [src]="images.url" alt="{{ images.name }}" class="img-responsive" />
+        </div>
+      </div>
+      <div class="col-xl-6 col-lg-6 col-md-6">
+        <p class="text-justify" *ngFor="let desc of culture.description; let i = index">
+          {{ desc.paragraph }}
+        </p>
+      </div>
     </div>
+  </div>
 </a>

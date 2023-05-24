@@ -1,0 +1,27 @@
+<a [routerLink]="[committee.key]" routerLinkActive="active" class="list-group-item clearfix" [class.disabled]="user == null">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12" style="margin-bottom: 10px;" *ngFor="let images of committee.images; let j = index">
+                <img [src]="images.url" alt="{{ images.name }}" class="img-fluid" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p><strong>{{ committee.header }}</strong></p>
+            </div>
+        </div>
+        <div class="row">
+            <div *ngFor="let staffArr of committee.staffs; let i = index" class="flex-container">
+                <div *ngFor="let staff of staffArr.staff; let j = index"
+                    [ngClass]="{'flex-item-half': staffArr.staff.length > 1, 'flex-item-full': staffArr.staff.length === 1}">
+                    <div [ngClass]="{'w1': staffArr.staff.length > 1, 'w3': staffArr.staff.length === 1}">
+                        <strong>{{staff.position}}</strong>
+                    </div>
+                    <div [ngClass]="{'w2': staffArr.staff.length > 1, 'w4' : staffArr.staff.length === 1}">
+                        :&nbsp; {{ staff.name }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</a>

@@ -1,0 +1,19 @@
+.row .col .row .col-3 {
+    width: fit-content;
+}
+
+.header-text {
+    display: inline-block;
+    width: fit-content;
+    margin-left: 5px;
+    font-size: 20px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.header-img {
+    width: fit-content;
+    height: auto;
+    min-height: 70px;
+}
+

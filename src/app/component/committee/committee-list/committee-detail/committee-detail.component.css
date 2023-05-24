@@ -1,0 +1,44 @@
+a {
+    margin-bottom: 30px;
+    cursor: pointer;
+}
+
+a.disabled {
+    pointer-events: none;
+    cursor: not-allowed; 
+ }
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flex-item-half {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 50%;
+    width: 50%;
+}
+
+.flex-item-full {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 100%;
+    width: 100%;
+}
+
+.w1 {
+    width: 20%;
+}
+
+.w2 {
+    width: 80%;
+}
+
+.w3 {
+    width: 10%;
+}
+
+.w4 {
+    width: 90%;
+}

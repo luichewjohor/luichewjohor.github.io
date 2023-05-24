@@ -1,0 +1,34 @@
+.loading {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+}
+
+.loading-text {
+    color: #fff;
+    font-size: 40px;
+}
+
+
+@keyframes upDown {
+    0% {
+        transform: translateY(0px);
+    }
+
+    20% {
+        transform: translateY(-24px);
+    }
+
+    40%,
+    100% {
+        transform: translateY(0px);
+    }
+}
+.loading-text span {
+    display: inline-block;
+    animation: upDown 1.5s ease-in-out infinite;
+    animation-delay: calc(.1s * var(--i));
+}
+

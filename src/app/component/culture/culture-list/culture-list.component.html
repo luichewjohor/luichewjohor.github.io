@@ -1,15 +1,14 @@
-<div class="row">
-  <div class="col-xs-12">
+<div class="row" *ngIf="user != null">
+  <div class="col-12">
     <button class="btn btn-success" (click)="onNewCulture()">New Culture</button>
   </div>
 </div>
 
 <div class="row">
-  <div class="col-xs-12">
+  <div class="col-12">
     <app-culture-detail
-      *ngFor="let cultureEl of cultures; let i = index"
-      [culture]="cultureEl"
-      [index]="i"></app-culture-detail>
+      *ngFor="let cultureEl of cultures"
+      [culture]="cultureEl"></app-culture-detail>
   </div>
 </div>
 

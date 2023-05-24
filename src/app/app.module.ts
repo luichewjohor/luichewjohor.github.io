@@ -11,6 +11,8 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from './environments/environment';
+import { NgbCollapseModule,NgbDropdownModule, NgbNavModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,12 @@ import { environment } from './environments/environment';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    NgbCollapseModule,
+    NgbDropdownModule,
+    NgbNavModule,
+    NgbModule,
+    GoogleMapsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

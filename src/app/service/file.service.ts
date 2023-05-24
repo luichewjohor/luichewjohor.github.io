@@ -6,9 +6,8 @@ import {
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Observable, finalize, forkJoin } from 'rxjs';
 import { FileUpload } from '../model/file-upload.model';
-import { Image } from '../model/image.model';
-import { UploadTaskSnapshot } from '@angular/fire/compat/storage/interfaces';
-import { map } from 'rxjs-compat/operator/map';
+import { ListResult, Reference, UploadTaskSnapshot } from '@angular/fire/compat/storage/interfaces';
+import { FileUploadFireBase } from '../model/file-upload-firebase.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,21 +15,20 @@ import { map } from 'rxjs-compat/operator/map';
 export class FileService {
   currentFileUpload?: FileUpload
   percentage = 0;
-  downloadUrl : FileUpload[] = [];
-  observableTask : Observable<UploadTaskSnapshot>[]= [];
-  seq : number = 0;
+  downloadUrl: FileUpload[] = [];
+  observableTask: Observable<UploadTaskSnapshot>[] = [];
 
 
   constructor(
     private db: AngularFireDatabase,
     private storage: AngularFireStorage
-  ) {}
+  ) { }
 
-  pushFileToStorage(fileUpload: FileUpload,basePath : string): Observable<number | undefined> {
+  pushFileToStorage(fileUpload: FileUpload, basePath: string, attribute: string, seq : number): Observable<number | undefined> {
     const filePath = `${basePath}/${fileUpload.file.name}`;
     const storageRef = this.storage.ref(filePath);
     const uploadTask = this.storage.upload(filePath, fileUpload.file);
-
+    
     uploadTask
       .snapshotChanges()
       .pipe(
@@ -38,8 +36,8 @@ export class FileService {
           storageRef.getDownloadURL().subscribe((downloadURL) => {
             fileUpload.url = downloadURL;
             fileUpload.name = fileUpload.file.name;
-            console.log('Uploading '+fileUpload.name );
-            this.saveFileData(fileUpload, basePath , this.seq++);
+            //console.log('Uploading ' + fileUpload.name);
+            this.saveFileData(fileUpload, basePath, attribute, seq);
           });
         })
       ).subscribe();
@@ -66,48 +64,63 @@ export class FileService {
   //       )
   // }
 
-  private saveFileData(fileUpload: FileUpload,basePath : string, seq : number): void {
-    this.db.list(basePath).update('images/'+seq,fileUpload);
+  private saveFileData(fileUpload: FileUpload, basePath: string, attribute: string, seq: number): void {
+    //console.log(fileUpload);
+    this.db.list(basePath).update(attribute + '/' + seq, fileUpload);
   }
 
-  getFiles(numberItems: number, basePath : string): AngularFireList<FileUpload> {
+  getFiles(numberItems: number, basePath: string): AngularFireList<FileUpload> {
     return this.db.list(basePath, (ref) => ref.limitToLast(numberItems));
   }
 
-  deleteFile(fileUpload: FileUpload,basePath : string): void {
-    this.deleteFileDatabase(fileUpload.key,basePath)
-      .then(() => {
-        this.deleteFileStorage(fileUpload.name,basePath);
-      })
-      .catch((error) => console.log(error));
+  deleteFileStorage(name: string, basePath: string): void {
+    const folderPath = `${basePath}/${name}`;
+    const folderRef = this.storage.ref(folderPath);
+
+    folderRef.listAll().subscribe((list: ListResult) => {
+      list.items.forEach((fileRef: Reference) => fileRef.delete());
+    });
   }
 
-  private deleteFileDatabase(key: string,basePath : string): Promise<void> {
-    return this.db.list(basePath).remove(key);
-  }
-
-  private deleteFileStorage(name: string,basePath : string): void {
-    const storageRef = this.storage.ref(basePath);
-    storageRef.child(name).delete();
-  }
-
-  async upload(selectedFiles: FileList, basePath : string): Promise<void> {
+  async upload(selectedFiles: FileUpload[], basePath: string, attribute: string): Promise<void> {
     if (selectedFiles && selectedFiles.length > 0) {
-      this.seq = 0;
+      let seq : number = 0;
       for (let i = 0; i < selectedFiles.length; i++) {
-        const file: File | null = selectedFiles.item(i);
-        if (file) {
-          this.currentFileUpload = new FileUpload(file);
-          this.pushFileToStorage(this.currentFileUpload,basePath).subscribe({
+        if (selectedFiles[i]['file']) {
+          this.pushFileToStorage(selectedFiles[i], basePath, attribute,seq).subscribe({
             next: (percentage: number) =>
               (this.percentage = Math.round(percentage ? percentage : 0)),
             error: (err) => console.log(err),
           });
+        } else {
+          console.warn('FileUpload dont have file attirbute [ %s ]', selectedFiles);
         }
       }
     }
-    // this.saveFileData(this.downloadUrl,basePath);
   }
+
+  async uploadFileList(fileList: FileUploadFireBase[]): Promise<void> {
+    if (fileList && fileList.length > 0) {
+      for (let i = 0; i < fileList.length; i++) {
+        let selectedFiles: FileUpload[] = fileList[i].fileList;
+        let seq : number = 0;
+        for (let j = 0; j < selectedFiles.length; j++) {
+          if (selectedFiles[j]['file']) {
+            this.pushFileToStorage(selectedFiles[j], fileList[i].path, fileList[i].attribute,seq).subscribe({
+              next: (percentage: number) =>
+                (this.percentage = Math.round(percentage ? percentage : 0)),
+              error: (err) => console.log(err),
+            });
+          } else {
+            console.warn('FileUpload dont have file attirbute [ %s ]', selectedFiles);
+          }
+          seq++;
+        }
+      }
+    }
+  }
+
+
 
   // upload(selectedFiles: FileList, basePath : string){
 

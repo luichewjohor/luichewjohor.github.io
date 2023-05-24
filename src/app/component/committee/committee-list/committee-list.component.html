@@ -1,0 +1,21 @@
+<!-- <div class="row" *ngIf="user != null">
+    <div class="col-xs-12">
+      <button class="btn btn-success" (click)="onNewCulture()">New Culture</button>
+    </div>
+  </div> -->
+
+<div class="col-xs-12" *ngIf="user != null">
+  <button class="btn btn-success" (click)="onNewCommittee()">New Committee</button>
+</div>
+
+
+<div class="row">
+  <div class="col-xs-12">
+    <div>
+      <img src="assets/img/CommitteeHeaderLogo.png" alt="CommitteeHeaderLogo" class="img-responsive" />
+    </div>
+    <div class="row">
+      <app-committee-detail *ngFor="let committeeEl of committee" [committee]="committeeEl"></app-committee-detail>
+    </div>
+  </div>
+</div>

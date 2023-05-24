@@ -1,0 +1,38 @@
+<!-- <a [routerLink]="[chairman.key]" routerLinkActive="active" class="list-group-item clearfix" [class.disabled]="user == null"> -->
+<a [routerLink]="['chairman/'+chairman.key]" routerLinkActive="active" class="list-group-item clearfix">
+    <div class="row">
+        <div class="col-2" >
+            <div *ngFor="let images of chairman.images; let j = index">
+                <img [src]="images.url" alt="{{ images.name }}" class="img-responsive" />
+            </div>
+        </div>
+        <div class="col-10">
+            <div class="row">
+                <div class="col">
+                    <strong>{{ chairman.title }}</strong>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ chairman.name }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    ({{ chairman.date }})
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    功绩 ：
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ chairman.description }}
+                </div>
+            </div>
+        </div>
+    </div>
+</a>

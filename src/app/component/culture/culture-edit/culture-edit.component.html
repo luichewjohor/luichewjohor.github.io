@@ -1,113 +1,117 @@
 <div class="row">
-  <div class="col-xs-12">
+  <div class="col-12">
     <form [formGroup]="cultureForm" (ngSubmit)="onSubmit()">
       <div class="row">
-        <div class="col-xs-12">
-          <button
-            type="submit"
-            class="btn btn-success"
-            [disabled]="!cultureForm.valid"
-          >
+        <div class="col-12">
+          <button type="submit" class="btn btn-success" [disabled]="!cultureForm.valid">
             Save
           </button>
           <button type="button" class="btn btn-danger" (click)="onCancel()">
             Cancel
           </button>
+          <button type="button" class="btn btn-danger" (click)="onDelete()">
+            Delete
+        </button>
         </div>
       </div>
 
-      <div
-        class="container"
-        *ngIf="images && images.length"
-        formArrayName="image"
-      >
+      <div class="container" formArrayName="headerImage">
+        <label for="headerImage">Header Logo</label>
         <div class="row">
-          <div
-            *ngFor="let image of imagesControls.controls; let i = index"
-            class="col-3"
-          >
+          <div *ngFor="let image of headerImageControls; let i = index" class="col-3">
             <div [formGroupName]="i">
-              <img
-                [src]="image.value.result"
-                class="img-responsive"
-                style="height: 100%; width: 100%; object-fit: contain"
-              />
-              <label *ngIf="images.length > 1"> {{ image.value.name }}</label>
+              <img [src]="image.value.result" class="img-responsive"
+                style="height: 100%; width: 100%; object-fit: contain" />
+              <label> {{ image.value.name }}</label>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <input
-              class="hidden"
-              type="file"
-              accept=".gif,.bmp, .png, .jpeg, .jpg, .pdf"
-              multiple
-              (change)="uploadCultureFile($event)"
-              name="image"
-            />
-          </div>
-        </div>
+      <div>
+        <button class="btn btn-primary" type="button"
+          (click)="cultureHeaderImageUploader.value = ''; cultureHeaderImageUploader.click()">
+          Browse
+        </button>
+        <span>
+          {{ headerImgLst.length }} files have been uploaded ( {{ headerImg }} )
+        </span>
       </div>
-      <!-- <div class="row">
-        <div class="col-xs-12">
-          <img [src]="imagePath.value" class="img-responsive" />
-        </div>
-      </div> -->
+
+
+      <input id="image" type="file" accept=".png, .jpeg,.jpg" (change)="uploadCultureFile($event, true)" name="image"
+        multiple [hidden]="true" #cultureHeaderImageUploader />
 
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col-12">
           <div class="form-group">
             <label for="header">Header</label>
-            <input
-              type="text"
-              id="header"
-              formControlName="header"
-              class="form-control"
-            />
+            <input type="text" id="header" formControlName="header" class="form-control" />
           </div>
         </div>
       </div>
 
       <div class="row">
-        <div class="col-xs-12" formArrayName="description">
+        <div class="col-1">
+          <label for="seq">Sequence</label>
+        </div>
+        <div class="col-7">
+          <select class="form-select form-select-md mb-3" aria-label=".form-select-md example"
+            (change)="changeSeq($event)" formControlName="seq" id="seq">
+            <option *ngFor="let c of this.culture" [value]="c.seq">{{c.seq}}</option>
+          </select>
+        </div>
+        <div class="invalid-feedback" *ngIf="seq.errors?.required">
+          <sup>*</sup>Please select your seq
+        </div>
+      </div>
+
+      <div class="container" formArrayName="images">
+        <label for="images">Images</label>
+        <div class="row">
+          <div *ngFor="let image of imagesControls; let i = index" class="col-3">
+            <div [formGroupName]="i">
+              <img [src]="image.value.result" class="img-responsive"
+                style="height: 100%; width: 100%; object-fit: contain" />
+              <label> {{ image.value.name }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button class="btn btn-primary" type="button"
+          (click)="cultureFileUploader.value = ''; cultureFileUploader.click()">
+          Browse
+        </button>
+        <span>
+          {{ imageList.length }} files have been uploaded ( {{ image }} )
+        </span>
+      </div>
+
+
+      <input id="image" type="file" accept=".gif,.bmp, .png, .jpeg, .jpg, .pdf"
+        (change)="uploadCultureFile($event,false)" name="image" multiple [hidden]="true" #cultureFileUploader />
+
+      <div class="row">
+        <div class="col-12" formArrayName="description">
           <label for="description">Description</label>
-          <div
-            class="row"
-            *ngFor="let description of descriptionsControls; let i = index"
-            [formGroupName]="i"
-            style="margin-top: 10px"
-          >
-            <div class="d-flex bd-highlight">
-              <div class="p-2 flex-grow-1 bd-highlight">
-                <textarea
-                  type="text"
-                  id="paragraph"
-                  class="form-control"
-                  formControlName="paragraph"
-                ></textarea>
+          <div class="row" *ngFor="let description of descriptionsControls; let i = index" [formGroupName]="i"
+            style="margin-top: 10px">
+            <div class="flex-container">
+              <div class="col-10" style="min-height: 200px;">
+                <textarea type="text" id="paragraph" class="form-control" formControlName="paragraph"></textarea>
               </div>
-              <div class="p-2 bd-highlight">
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  (click)="onDeleteParagraph(i)"
-                >
-                  X
-                </button>
+              <div class="delete col-1">
+                <button type="button" class="btn btn-light" (click)="onDeleteParagraph(i)"><span id="boot-icon"
+                    class="bi bi-trash" style="color: rgb(255, 0, 0);">
+                    Delete</span></button>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-xs-12">
-              <button
-                type="button"
-                class="btn btn-success"
-                (click)="onAddParagraph()"
-              >
+            <div class="col-12">
+              <button type="button" class="btn btn-success" (click)="onAddParagraph()">
                 Add Paragraph
               </button>
             </div>
