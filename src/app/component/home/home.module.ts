@@ -25,11 +25,13 @@ const routes: Routes = [
   },
   {
     path: 'chairman/new',
-    component: ChairmanEditComponent
+    component: ChairmanEditComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'chairman/:id',
-    component: ChairmanEditComponent
+    component: ChairmanEditComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: '',
