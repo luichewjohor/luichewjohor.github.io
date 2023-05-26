@@ -286,6 +286,18 @@ export class CommitteeEditComponent implements OnInit, OnDestroy {
 
   onDelete() {
     this.committeeService.deleteCommittee(this.id);
-    this.router.navigate(['../'], { relativeTo: this.route });
+    this.syncCommitteeSeq();
+    this.onCancel();
+  }
+
+  syncCommitteeSeq() {
+    const clist: Committee[] = this.committee.filter(c => c.key !== this.id);
+
+    let counter: number = 0;
+    clist.forEach(s => {
+      s.seq  = counter.toString();
+      counter++;
+    });
+    this.committeeService.updateCommitteeSeq(clist);
   }
 }

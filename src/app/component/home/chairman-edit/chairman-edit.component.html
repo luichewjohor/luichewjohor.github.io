@@ -19,7 +19,7 @@
         <div class="row">
             <label>Image</label>
             <div *ngFor="let image of imagesControls; let i = index" class="row">
-                <div [formGroupName]="i" class="col-3">
+                <div [formGroupName]="i" class="col-2">
                     <img [src]="image.value.result" [alt]="image.value.name" class="img" />
                 </div>
 

@@ -1,4 +1,4 @@
-<a [routerLink]="[chairman.key]" routerLinkActive="active" class="list-group-item clearfix" [class.disabled]="user == null">
+<a [routerLink]="'chairman/'+[chairman.key]" routerLinkActive="active" class="list-group-item clearfix" [class.disabled]="user == null">
     <div class="row">
         <div class="col-2" >
             <div *ngFor="let images of chairman.images; let j = index">

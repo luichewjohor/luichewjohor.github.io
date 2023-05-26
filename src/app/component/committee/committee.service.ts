@@ -64,4 +64,11 @@ export class CommitteeService {
     this.db.list(this.basePath).update(path, commitee);
   }
 
+  updateCommitteeSeq(committeeList: Committee[]) {
+
+    for (let c of committeeList) {
+      this.db.list(this.basePath).update(c.key, { seq: c.seq });
+    }
+  }
+
 }

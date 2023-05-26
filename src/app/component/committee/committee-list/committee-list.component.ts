@@ -38,7 +38,7 @@ export class CommitteeListComponent implements OnInit,OnDestroy{
         )
       )
     ).subscribe( data =>{
-      data.sort((a, b) => a.seq.localeCompare(b.seq));
+      data.sort((a, b) => b.seq.localeCompare(a.seq));
       this.committee = data;
       this.user = this.authService.getCurrentUser();
       console.log(this.committee);

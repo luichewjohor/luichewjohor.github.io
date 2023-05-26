@@ -14,16 +14,6 @@ import { HomeDetailComponent } from './home-detail/home-detail.component';
 
 const routes: Routes = [
   {
-    path: 'new',
-    component: HomeEditComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: ':id',
-    component: HomeEditComponent,
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'chairman/new',
     component: ChairmanEditComponent,
     canActivate: [AuthGuard]

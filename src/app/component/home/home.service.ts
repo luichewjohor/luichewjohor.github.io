@@ -27,10 +27,10 @@ export class HomeService {
       take(1),
       map(changes =>
         changes.map(c =>
-          ({ key: c.payload.key,...c.payload.val() })
+          ({ key: c.payload.key, ...c.payload.val() })
         )
       ),
-      map( c => (c.sort((a, b) => a.seq.localeCompare(b.seq))))
+      map(c => (c.sort((a, b) => a.seq.localeCompare(b.seq))))
     );
   }
 
@@ -40,14 +40,14 @@ export class HomeService {
 
   storeChairman(c: Chairman, fileList: FileUpload[]) {
     // console.log(fileList);
-    this.db.list(this.chairmanBasePath).push(new Chairman([],c.title,c.name,c.date,c.seq,c.description,null)).then(ref => {
+    this.db.list(this.chairmanBasePath).push(new Chairman([], c.title, c.name, c.date, c.seq, c.description, null)).then(ref => {
       const path = this.chairmanBasePath + '/' + ref.key;
       console.log(path);
       this.uploadFileService.upload(fileList, path, 'images');
     });
   }
 
-  updateChairman(path : string, c : Chairman): void {
+  updateChairman(path: string, c: Chairman): void {
     this.db.list(this.chairmanBasePath).update(path, c);
   }
 
@@ -61,5 +61,13 @@ export class HomeService {
 
     this.uploadFileService.deleteFileStorage(id, this.chairmanBasePath);
     console.log('Deleted ID' + id);
+  }
+
+  updateChairmanSeq(chairmanList: Chairman[]) {
+
+    for (let c of chairmanList) {
+      this.db.list(this.chairmanBasePath).update(c.key,{ seq : c.seq});
+
+    }
   }
 }

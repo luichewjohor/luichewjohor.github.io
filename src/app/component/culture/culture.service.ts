@@ -72,5 +72,9 @@ export class CultureService {
     this.db.list(this.basePath).update(path, culture);
   }
 
-
+  updateCultureSeq(cultureList: Culture[]) {
+    for (let c of cultureList) {
+      this.db.list(this.basePath).update(c.key, { seq: c.seq });
+    }
+  }
 }

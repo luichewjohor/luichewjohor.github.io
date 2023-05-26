@@ -262,5 +262,18 @@ export class CultureEditComponent implements OnInit, OnDestroy {
 
   onDelete(){
     this.cultureService.deleteCulture(this.id);
+    this.syncCultureSeq();
+    this.onCancel();
+  }
+  
+  syncCultureSeq() {
+    const clist: Culture[] = this.culture.filter(c => c.key !== this.id);
+
+    let counter: number = 0;
+    clist.forEach(s => {
+      s.seq  = counter.toString();
+      counter++;
+    });
+    this.cultureService.updateCultureSeq(clist);
   }
 }

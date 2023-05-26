@@ -39,7 +39,7 @@ export class HomeListComponent implements OnInit{
       )
     )
     .subscribe( data =>{
-      data.sort((a, b) => a.seq.localeCompare(b.seq));
+      data.sort((a, b) => b.seq.localeCompare(a.seq));
       this.chairmans = data;
       this.user = this.authService.getCurrentUser();
       console.log(this.user);

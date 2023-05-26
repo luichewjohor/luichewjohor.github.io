@@ -11,14 +11,14 @@ import { Subscription } from 'rxjs';
   templateUrl: './chairman-edit.component.html',
   styleUrls: ['./chairman-edit.component.css']
 })
-export class ChairmanEditComponent implements OnInit,OnDestroy {
+export class ChairmanEditComponent implements OnInit, OnDestroy {
   id: string;
   editMode = false;
   chairmanForm: FormGroup;
   images: FileUpload[] = [];
   image: string = '';;
   subscription: Subscription;
-  chairman : Chairman [] = [];
+  chairman: Chairman[] = [];
   currentSeq: string;
 
   constructor(
@@ -45,34 +45,34 @@ export class ChairmanEditComponent implements OnInit,OnDestroy {
     });
   }
 
-  initForm(){
+  initForm() {
     this.chairmanForm = this.fb.group({
       images: this.fb.array([]),
       title: new FormControl('', Validators.required),
-      name : new FormControl('', Validators.required),
-      date : new FormControl('', Validators.required),
-      description : new FormControl(''),
+      name: new FormControl('', Validators.required),
+      date: new FormControl('', Validators.required),
+      description: new FormControl(''),
       seq: '0',
     });
 
     this.subscription = this.homeService.getChairManList()
-    .subscribe(data => {
-      this.chairman = data;
-      // this.user = this.authService.getCurrentUser();
-      if (!this.editMode) {
-        this.chairman.push({ key: '',  date :'',description : '', images: [],name :'',seq: this.chairman.length.toString(),title: ''});
-        this.seq.setValue((this.chairman.length - 1).toString());
-        this.currentSeq = (this.chairman.length - 1).toString();
-      } else {
-        let c: Chairman = this.chairman.find(i => i.key == this.id);
-        this.updateForm(c);
-      } 
-      console.log(this.chairman);
-    });
+      .subscribe(data => {
+        this.chairman = data;
+        // this.user = this.authService.getCurrentUser();
+        if (!this.editMode) {
+          this.chairman.push({ key: '', date: '', description: '', images: [], name: '', seq: this.chairman.length.toString(), title: '' });
+          this.seq.setValue((this.chairman.length - 1).toString());
+          this.currentSeq = (this.chairman.length - 1).toString();
+        } else {
+          let c: Chairman = this.chairman.find(i => i.key == this.id);
+          this.updateForm(c);
+        }
+        console.log(this.chairman);
+      });
   }
 
 
-  updateForm(chairman : Chairman){
+  updateForm(chairman: Chairman) {
     if (chairman['title']) {
       this.chairmanForm.get('title').patchValue(chairman.title);
     }
@@ -80,7 +80,7 @@ export class ChairmanEditComponent implements OnInit,OnDestroy {
     if (chairman['name']) {
       this.chairmanForm.get('name').patchValue(chairman.name);
     }
-    
+
     if (chairman['date']) {
       this.chairmanForm.get('date').patchValue(chairman.date);
     }
@@ -184,10 +184,10 @@ export class ChairmanEditComponent implements OnInit,OnDestroy {
       this.homeService.deleteChairman(this.id);
     }
     this.homeService.storeChairman(chairman, this.images);
-    setTimeout(() => {this.onCancel()}, 2000);
+    setTimeout(() => { this.onCancel() }, 2000);
   }
 
-  onCancel(){
+  onCancel() {
     this.image = '';
     this.images = [];
     this.editMode = false;
@@ -197,7 +197,7 @@ export class ChairmanEditComponent implements OnInit,OnDestroy {
   exchangeSeq(newSeq: string) {
     let c: Chairman = this.chairman.find(i => i.seq == newSeq);
 
-    let path: string = c.key ;
+    let path: string = c.key;
     c.seq = this.currentSeq;
     c.key = null;
 
@@ -214,13 +214,24 @@ export class ChairmanEditComponent implements OnInit,OnDestroy {
 
   onDeleteImage(index: number) {
     (<FormArray>this.chairmanForm.get('images')).removeAt(index);
-    this.images.splice(index,1);
+    this.images.splice(index, 1);
     this.image = this.images.map(i => i.name).join(',');
   }
 
-  onDelete(){
+  onDelete() {
     this.homeService.deleteChairman(this.id);
+    this.syncChairmanSeq();
     this.onCancel();
   }
 
+  syncChairmanSeq() {
+    const clist: Chairman[] = this.chairman.filter(c => c.key !== this.id);
+
+    let counter: number = 0;
+    clist.forEach(s => {
+      s.seq  = counter.toString();
+      counter++;
+    });
+    this.homeService.updateChairmanSeq(clist);
+  }
 }
