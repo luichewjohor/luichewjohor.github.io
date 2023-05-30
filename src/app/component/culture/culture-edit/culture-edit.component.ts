@@ -199,7 +199,7 @@ export class CultureEditComponent implements OnInit, OnDestroy {
         // this.user = this.authService.getCurrentUser();
         //console.log(this.culture);
         if (!this.editMode) {
-          this.culture.push(new Culture('', [], this.culture.length.toString()));
+          this.culture.push(new Culture([], this.culture.length.toString()));
           this.seq.setValue((this.culture.length - 1).toString());
           this.currentSeq = (this.culture.length - 1).toString();
         }
@@ -275,5 +275,17 @@ export class CultureEditComponent implements OnInit, OnDestroy {
       counter++;
     });
     this.cultureService.updateCultureSeq(clist);
+  }
+
+  onDeleteHeaderImage(i : number){
+    (<FormArray>this.cultureForm.get('headerImage')).removeAt(i);
+    this.headerImgLst.splice(i,1);
+    this.headerImg = this.headerImgLst.map(i => i.name).join(',');
+  }
+
+  onDeleteImage(i: number) {
+    (<FormArray>this.cultureForm.get('images')).removeAt(i);
+    this.imageList.splice(i,1);
+    this.image = this.imageList.map(i => i.name).join(',');
   }
 }

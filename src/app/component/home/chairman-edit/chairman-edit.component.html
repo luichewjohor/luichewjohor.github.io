@@ -4,42 +4,47 @@
       <div class="row">
         <div class="col-12">
           <button type="submit" class="btn btn-success" [disabled]="!chairmanForm.valid">
-            Save
+            存档
           </button>
           <button type="button" class="btn btn-danger" (click)="onCancel()">
-            Cancel
+            取消
           </button>
           <button type="button" class="btn btn-danger" (click)="onDelete()" [disabled]="chairmanForm.value.key !=null ">
-            Delete
-        </button>
+            删除此帖
+          </button>
         </div>
       </div>
-      
+
       <div class="container-fluid" formArrayName="images">
         <div class="row">
-            <label>Image</label>
-            <div *ngFor="let image of imagesControls; let i = index" class="row">
-                <div [formGroupName]="i" class="col-2">
-                    <img [src]="image.value.result" [alt]="image.value.name" class="img" />
-                </div>
-
-                <div class="col-3 delete">
-                    <button type="button" class="btn btn-light" (click)="onDeleteImage(i)"><span
-                            id="boot-icon" class="bi bi-trash" style="color: rgb(255, 0, 0);">
-                            Delete</span></button>
-                </div>
-                <label> {{ image.value.name }}</label>
+          <label>图片</label>
+          <div *ngFor="let image of imagesControls; let i = index" class="row">
+            <div [formGroupName]="i" class="col-2">
+              <img [src]="image.value.result" [alt]="image.value.name" class="img" />
             </div>
-        </div>
-    </div>
 
-      <div>
-        <button class="btn btn-primary" type="button" (click)="imagesUploader.value = ''; imagesUploader.click()">
-          Browse
-        </button>
-        <span>
-          {{ images.length }} files have been uploaded ( {{ image }} )
-        </span>
+            <div class="col-3 delete">
+              <button type="button" class="btn btn-danger" (click)="onDeleteImage(i)"><span id="boot-icon"
+                  class="bi bi-trash" style="color: rgb(255, 255, 255);">
+                  删除此图</span></button>
+            </div>
+            <label> {{ image.value.name }}</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-2">
+          <button class="btn btn-primary" type="button" style="width: 50%;"
+            (click)="imagesUploader.value = ''; imagesUploader.click()">
+            游览
+          </button>
+        </div>
+        <div class="col-10 mt-auto">
+          <span>
+            {{ images.length }} files have been uploaded ( {{ image }} )
+          </span>
+        </div>
       </div>
 
 
@@ -49,7 +54,7 @@
       <div class="row">
         <div class="col-12">
           <div class="form-group">
-            <label for="title">Title</label>
+            <label for="title">头衔</label>
             <input type="text" id="title" formControlName="title" class="form-control" />
           </div>
         </div>
@@ -58,7 +63,7 @@
       <div class="row">
         <div class="col-12">
           <div class="form-group">
-            <label for="name">Name</label>
+            <label for="name">姓名</label>
             <input type="text" id="name" formControlName="name" class="form-control" />
           </div>
         </div>
@@ -67,7 +72,7 @@
       <div class="row">
         <div class="col-12">
           <div class="form-group">
-            <label for="date">Date</label>
+            <label for="date">任期</label>
             <input type="text" id="date" formControlName="date" class="form-control" />
           </div>
         </div>
@@ -75,7 +80,7 @@
       <div class="row">
         <div class="col-12">
           <div class="form-group">
-            <label for="description">Description</label>
+            <label for="description">描述</label>
             <input type="text" id="description" formControlName="description" class="form-control" />
           </div>
         </div>
@@ -84,7 +89,7 @@
 
       <div class="row">
         <div class="col-1">
-          <label for="seq">Sequence</label>
+          <label for="seq">次序</label>
         </div>
         <div class="col-7">
           <select class="form-select form-select-md mb-3" aria-label=".form-select-md example"

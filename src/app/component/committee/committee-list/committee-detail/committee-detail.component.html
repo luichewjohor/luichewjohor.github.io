@@ -1,4 +1,5 @@
-<a [routerLink]="[committee.key]" routerLinkActive="active" class="list-group-item clearfix" [class.disabled]="user == null">
+<a [routerLink]="[committee.key]" routerLinkActive="active" class="list-group-item clearfix"
+    [class.disabled]="user == null">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12" style="margin-bottom: 10px;" *ngFor="let images of committee.images; let j = index">

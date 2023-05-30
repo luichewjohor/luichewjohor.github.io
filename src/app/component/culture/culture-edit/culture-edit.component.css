@@ -24,3 +24,9 @@ textarea {
 .col-12 button{
   margin-right: 20px;
 }
+
+.img {
+  object-fit: scale-down;
+  width: 100%;
+  height: 100%;
+}

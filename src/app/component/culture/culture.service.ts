@@ -25,7 +25,7 @@ export class CultureService {
   storeCulture( culture : Culture, fileList: FileUpload[], headerImageList: FileUpload[]) {
     //console.log(fileList);
     this.fileUploadFirebaseLst = [];
-    this.db.list(this.basePath).push(new Culture(culture.header,culture.description,culture.seq,[],[],null)).then( ref => {
+    this.db.list(this.basePath).push(new Culture(culture.description,culture.header,culture.seq,[],[],null)).then( ref => {
       const path = this.basePath +'/'+ ref.key ;
       this.fileUploadFirebaseLst.push(new FileUploadFireBase(path,fileList,'images'));
       this.fileUploadFirebaseLst.push(new FileUploadFireBase(path,headerImageList,'headerImage'));

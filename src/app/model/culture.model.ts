@@ -9,7 +9,7 @@ export class Culture {
   public key? : string;
   public seq : string;
 
-  constructor(header : string,description : Paragraph[],seq : string, images? : FileUpload[],headerImage? : FileUpload[], key? : string) {
+  constructor(description : Paragraph[],seq : string,header? : string, images? : FileUpload[],headerImage? : FileUpload[], key? : string) {
     this.header = header;
     this.headerImage = headerImage;
     this.description = description;
